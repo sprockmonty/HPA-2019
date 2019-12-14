@@ -3,19 +3,19 @@ clc
 close all
 
 %define stick angle
-stickAngle = 4; %in degrees from north, clockwise positive
+stickAngle = 0; %in degrees from north, clockwise positive
 
 %%	Start program
 
 stickAngle = deg2rad(stickAngle);
 
 %define hinge locations
-hinges = [0, 0; 650, 213.5];
+hinges = [0, 0; 650, 194.5];
 
 %each hinge has two rods, an upper rod and a lower rod, if radius = 0, there no rod is present. Upper rod is measured in positive radius, lower is measured in negative radius.
 %rods have indexing, 1 = r1c1, 2 = r1c2, 3 = r2c1, 4 = r2c2 etc.
 %rod 1 must be the stick
-hingeRodsRadi = [50, 0; 0,-150];
+hingeRodsRadi = [50, 0; 0,-5];
 
 
 
@@ -23,7 +23,7 @@ hingeRodsRadi = [50, 0; 0,-150];
 
 %link hinge rods to additional rods in matrix mx3, where first column is rod length, second is index of first hinge rod to connect to, third is index of second hinge rod to connect to.
 %tops are odd, bottoms are even for consistency
-linkRods = [647, 1, 4];
+linkRods = [1000, 1, 4; 2000, 3, 6; 500, 5, 8];
 
 if sum(not(size(hinges) == size(hingeRodsRadi)) | not(size(linkRods,1) == size(hinges,1) - 1))
 	error('number of rodes is not consistent with number of hinges')
@@ -83,7 +83,7 @@ end
 fprintf("The output angle is %f degrees\n", finalTheta)
 fprintf("The normal (surface deflection) angle is %f degrees", thetaSurface)
 
-angles = deflecAngleCalc(hinges, hingeRodsRadi, linkRods, [-21, 29]);
+angles = deflecAngleCalc(hinges, hingeRodsRadi, linkRods, [-18, 18]);
 figure
 plot(angles(:,1), angles(:,2))
 xlabel('stick input')
